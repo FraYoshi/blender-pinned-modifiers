@@ -49,7 +49,7 @@ If this add-on saves you time and improves your Blender workflow, please conside
 
 * ☕ **Ko-Fi:** [ko-fi.com/frayoshi](https://ko-fi.com/frayoshi)
 * 💸 **PayPal:** [paypal.me/FrancescoGobbo](https://paypal.me/FrancescoGobbo)
-* 🪢 **GitHub:** [github.com/sponsors/FraYoshi](https://github.com/sponsors/FraYoshi) or click on the ♥️ hearth shaped sponsor icon.
+* 🪢 **GitHub:** [github.com/sponsors/FraYoshi](https://github.com/sponsors/FraYoshi) or click on the ♥️ heart shaped sponsor icon.
 * 🔗 **More Ways to Support:** [furayoshi.com/support](https://furayoshi.com/support)
 * 🌐 **Homepage:** [furayoshi.com](https://furayoshi.com)
 * 🗨️ **Discord:** [furayoshi.com/discord](https://furayoshi.com/discord)
