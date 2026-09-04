@@ -1,8 +1,8 @@
 bl_info = {
     "name": "Pinned Modifiers",
     "author": "Francesco Yoshi Gobbo",
-    "version": (1, 0, 0),
-    "blender": (4, 3, 0),
+    "version": (1, 1, 0),
+    "blender": (5, 2, 1),
     "location": "Properties > Modifiers > Add Modifier",
     "description": "Pins favorite modifiers setups to the Add Modifier menu.",
     "category": "Interface",
@@ -40,6 +40,9 @@ AVAILABLE_MODIFIERS = {
     'pin_multires': {"name": "Multiresolution", "kind": "MODIFIER", "type": 'MULTIRES', "icon": 'MOD_MULTIRES'},
     'pin_remesh': {"name": "Remesh", "kind": "MODIFIER", "type": 'REMESH', "icon": 'MOD_REMESH'},
     'pin_scatter_on_surface': {"name": "Scatter on Surface", "kind": "NODES", "node_group": "Scatter on Surface", "icon": 'GEOMETRY_NODES'},
+    'pin_displace_geometry': {"name": "Displace Geometry", "kind": "NODES", "node_group": "Displace Geometry", "icon": 'GEOMETRY_NODES'},
+    'pin_instance_on_elements': {"name": "Instance on Elements", "kind": "NODES", "node_group": "Instance on Elements", "icon": 'GEOMETRY_NODES'},
+    'pin_randomize_transforms': {"name": "Randomize Transforms", "kind": "NODES", "node_group": "Randomize Transforms", "icon": 'GEOMETRY_NODES'},
     'pin_screw': {"name": "Screw", "kind": "MODIFIER", "type": 'SCREW', "icon": 'MOD_SCREW'},
     'pin_skin': {"name": "Skin", "kind": "MODIFIER", "type": 'SKIN', "icon": 'MOD_SKIN'},
     'pin_solidify': {"name": "Solidify", "kind": "MODIFIER", "type": 'SOLIDIFY', "icon": 'MOD_SOLIDIFY'},
@@ -66,11 +69,17 @@ AVAILABLE_MODIFIERS = {
     'pin_surface_deform': {"name": "Surface Deform", "kind": "MODIFIER", "type": 'SURFACE_DEFORM', "icon": 'MOD_MESHDEFORM'},
     'pin_warp': {"name": "Warp", "kind": "MODIFIER", "type": 'WARP', "icon": 'MOD_WARP'},
     'pin_wave': {"name": "Wave", "kind": "MODIFIER", "type": 'WAVE', "icon": 'MOD_WAVE'},
+    'pin_random_rotation': {"name": "Random Rotation", "kind": "NODES", "node_group": "Random Rotation", "icon": 'GEOMETRY_NODES'},
+    'pin_project_with_depth': {"name": "Project with Depth", "kind": "NODES", "node_group": "Project with Depth", "icon": 'GEOMETRY_NODES'},
+    'pin_transform_and_project': {"name": "Transform and Project", "kind": "NODES", "node_group": "Transform and Project", "icon": 'GEOMETRY_NODES'},
+    'pin_3d_to_screen_space': {"name": "3D to Screen Space", "kind": "NODES", "node_group": "3D to Screen Space", "icon": 'GEOMETRY_NODES'},
+    'pin_screen_to_3d_space': {"name": "Screen to 3D Space", "kind": "NODES", "node_group": "Screen to 3D Space", "icon": 'GEOMETRY_NODES'},
     
     # --- NORMALS SECTION ---
     'pin_normal_edit': {"name": "Normal Edit", "kind": "MODIFIER", "type": 'NORMAL_EDIT', "icon": 'MOD_NORMALEDIT'},
     'pin_weighted_normal': {"name": "Weighted Normal", "kind": "MODIFIER", "type": 'WEIGHTED_NORMAL', "icon": 'MOD_NORMALEDIT'},
     'pin_smooth_by_angle': {"name": "Smooth by Angle", "kind": "NODES", "node_group": "Smooth by Angle", "icon": 'GEOMETRY_NODES'},
+    'pin_smooth_geometry': {"name": "Smooth Geometry", "kind": "NODES", "node_group": "Smooth Geometry", "icon": 'GEOMETRY_NODES'},
     
     # --- PHYSICS SECTION ---
     'pin_cloth': {"name": "Cloth", "kind": "MODIFIER", "type": 'CLOTH', "icon": 'MOD_CLOTH'},
@@ -82,6 +91,87 @@ AVAILABLE_MODIFIERS = {
     'pin_particle_instance': {"name": "Particle Instance", "kind": "MODIFIER", "type": 'PARTICLE_INSTANCE', "icon": 'MOD_PARTICLE_INSTANCE'},
     'pin_particle_system': {"name": "Particle System", "kind": "MODIFIER", "type": 'PARTICLE_SYSTEM', "icon": 'MOD_PARTICLES'},
     'pin_soft_body': {"name": "Soft Body", "kind": "MODIFIER", "type": 'SOFT_BODY', "icon": 'MOD_SOFT'},
+}
+
+# Map each section to the keys that belong to it, in display order.
+# Keep these in sync with the section comments inside AVAILABLE_MODIFIERS.
+MODIFIER_CATEGORIES = {
+    "Edit": [
+        'pin_data_transfer',
+        'pin_mesh_cache',
+        'pin_mesh_sequence_cache',
+        'pin_uv_project',
+        'pin_uv_warp',
+        'pin_vertex_weight_edit',
+        'pin_vertex_weight_mix',
+        'pin_vertex_weight_proximity',
+    ],
+    "Generate": [
+        'pin_array',
+        'pin_array_legacy',
+        'pin_bevel',
+        'pin_boolean',
+        'pin_build',
+        'pin_curve_to_tube',
+        'pin_decimate',
+        'pin_edge_split',
+        'pin_mask',
+        'pin_mirror',
+        'pin_multires',
+        'pin_remesh',
+        'pin_scatter_on_surface',
+        'pin_displace_geometry',
+        'pin_instance_on_elements',
+        'pin_randomize_transforms',
+        'pin_screw',
+        'pin_skin',
+        'pin_solidify',
+        'pin_subsurf',
+        'pin_triangulate',
+        'pin_volume_to_mesh',
+        'pin_weld',
+        'pin_wireframe',
+    ],
+    "Deform": [
+        'pin_armature',
+        'pin_cast',
+        'pin_curve',
+        'pin_displace',
+        'pin_hook',
+        'pin_laplaciandeform',
+        'pin_lattice',
+        'pin_mesh_deform',
+        'pin_shrinkwrap',
+        'pin_simple_deform',
+        'pin_smooth',
+        'pin_corrective_smooth',
+        'pin_laplaciansmooth',
+        'pin_surface_deform',
+        'pin_warp',
+        'pin_wave',
+        'pin_random_rotation',
+        'pin_project_with_depth',
+        'pin_transform_and_project',
+        'pin_3d_to_screen_space',
+        'pin_screen_to_3d_space',
+    ],
+    "Normals": [
+        'pin_normal_edit',
+        'pin_weighted_normal',
+        'pin_smooth_by_angle',
+        'pin_smooth_geometry',
+    ],
+    "Physics": [
+        'pin_cloth',
+        'pin_collision',
+        'pin_dynamic_paint',
+        'pin_explode',
+        'pin_fluid',
+        'pin_ocean',
+        'pin_particle_instance',
+        'pin_particle_system',
+        'pin_soft_body',
+    ],
 }
 
 def get_config_path():
@@ -109,6 +199,7 @@ def deferred_save():
     settings = {key: getattr(prefs, key) for key in AVAILABLE_MODIFIERS.keys()}
     settings['pinned_order'] = getattr(prefs, "pinned_order", "")
     settings['show_settings_button'] = getattr(prefs, "show_settings_button", True)
+    settings['only_45'] = getattr(prefs, "only_45", False)
 
     try:
         with open(path, 'w') as f:
@@ -157,6 +248,7 @@ class PINNEDMODIFIERS_OT_export_settings(bpy.types.Operator, ExportHelper):
         settings = {key: getattr(prefs, key) for key in AVAILABLE_MODIFIERS.keys()}
         settings['pinned_order'] = getattr(prefs, 'pinned_order', '')
         settings['show_settings_button'] = getattr(prefs, 'show_settings_button', True)
+        settings['only_45'] = getattr(prefs, 'only_45', False)
         try:
             with open(self.filepath, 'w') as f:
                 json.dump(settings, f, indent=4)
@@ -205,6 +297,7 @@ class PINNEDMODIFIERS_OT_reset_settings(bpy.types.Operator):
             
             prefs.pinned_order = prefs.bl_rna.properties["pinned_order"].default
             prefs.show_settings_button = prefs.bl_rna.properties["show_settings_button"].default
+            prefs.only_45 = prefs.bl_rna.properties["only_45"].default
                 
             self.report({'INFO'}, "Configuration reset to defaults")
         except Exception as e:
@@ -249,41 +342,47 @@ class PINNEDMODIFIERS_OT_add_pinned(bpy.types.Operator):
             
         elif item["kind"] == "NODES":
             ng_name = item.get("node_group")
-            
+
             # Check if it already exists in the local file memory
             ng = bpy.data.node_groups.get(ng_name)
-            
+
             if ng:
                 # Local assignment
                 mod = obj.modifiers.new(name=item["name"], type='NODES')
                 mod.node_group = ng
             else:
-                # Fallback: Dictionary for Blender 5.1 Essentials paths
-                # Format: "nodes/geometry_nodes_essentials.blend/NodeTree/Asset Name"
-                essential_paths = {
-                    "Curve to Tube": "nodes/geometry_nodes_essentials.blend/NodeTree/Curve to Tube",
-                    "Scatter on Surface": "nodes/geometry_nodes_essentials.blend/NodeTree/Scatter on Surface",
-                    "Array": "nodes/geometry_nodes_essentials.blend/NodeTree/Array",
-                    "Smooth by Angle": "nodes/geometry_nodes_essentials.blend/NodeTree/Smooth by Angle"
-                }
-                
-                asset_path = essential_paths.get(ng_name)
-                
-                if asset_path:
+                # Fallback: load the Node Group from Blender's bundled Essentials
+                # asset library. In Blender 5.2.1 the
+                # asset_library_type='ESSENTIALS' operator path
+                # ("object.modifier_add_node_group") returns CANCELLED with
+                # "Asset loading is unfinished" when the asset library has not been
+                # registered yet (e.g. on a brand-new file). The reliable approach
+                # is to append the Node Tree directly from the on-disk .blend file
+                # and then create the modifier ourselves.
+                essentials_path = os.path.join(
+                    bpy.utils.resource_path('LOCAL'),
+                    'datafiles', 'assets', 'nodes',
+                    'geometry_nodes_essentials.blend',
+                )
+
+                if os.path.exists(essentials_path):
                     try:
-                        # Forward slashes are safe on both Windows and Linux in Blender Python
-                        bpy.ops.object.modifier_add_node_group(
-                            asset_library_type="ESSENTIALS", 
-                            asset_library_identifier="", 
-                            relative_asset_identifier=asset_path
-                        )
+                        with bpy.data.libraries.load(essentials_path, link=False) as (data_from, data_to):
+                            if ng_name in data_from.node_groups:
+                                data_to.node_groups.append(ng_name)
+                        ng = bpy.data.node_groups.get(ng_name)
+                        if ng is None:
+                            self.report({'WARNING'}, f"Node Group '{ng_name}' not found in Essentials library!")
+                            return {'CANCELLED'}
+                        mod = obj.modifiers.new(name=item["name"], type='NODES')
+                        mod.node_group = ng
                     except Exception as e:
-                        self.report({'ERROR'}, f"Could not load asset. Internal error: {e}")
+                        self.report({'ERROR'}, f"Could not load asset '{ng_name}'. Internal error: {e}")
                         return {'CANCELLED'}
                 else:
-                    self.report({'WARNING'}, f"Node Group '{ng_name}' missing and not found in Essentials path dictionary!")
+                    self.report({'WARNING'}, f"Essentials library not found at: {essentials_path}")
                     return {'CANCELLED'}
-                
+
         return {'FINISHED'}
 
 class PINNEDMODIFIERS_OT_move_item(bpy.types.Operator):
@@ -349,6 +448,13 @@ class PinnedModifiersPreferences(bpy.types.AddonPreferences):
         update=save_settings
     )
 
+    only_45: bpy.props.BoolProperty(
+        name="only 4.5",
+        description="Hide modifiers that are not present in Blender 4.5 (Geometry Nodes based modifiers, added in Blender 5.0).",
+        default=False,
+        update=save_settings
+    )
+
     # --- EDIT SECTION ---
     pin_data_transfer: make_prop("Data Transfer", False)
     pin_mesh_cache: make_prop("Mesh Cache", False)
@@ -373,6 +479,9 @@ class PinnedModifiersPreferences(bpy.types.AddonPreferences):
     pin_multires: make_prop("Multiresolution", False)
     pin_remesh: make_prop("Remesh", False)
     pin_scatter_on_surface: make_prop("Scatter on Surface", False)
+    pin_displace_geometry: make_prop("Displace Geometry", False)
+    pin_instance_on_elements: make_prop("Instance on Elements", False)
+    pin_randomize_transforms: make_prop("Randomize Transforms", False)
     pin_screw: make_prop("Screw", False)
     pin_skin: make_prop("Skin", False)
     pin_solidify: make_prop("Solidify", False)
@@ -399,11 +508,17 @@ class PinnedModifiersPreferences(bpy.types.AddonPreferences):
     pin_surface_deform: make_prop("Surface Deform", False)
     pin_warp: make_prop("Warp", False)
     pin_wave: make_prop("Wave", False)
+    pin_random_rotation: make_prop("Random Rotation", False)
+    pin_project_with_depth: make_prop("Project with Depth", False)
+    pin_transform_and_project: make_prop("Transform and Project", False)
+    pin_3d_to_screen_space: make_prop("3D to Screen Space", False)
+    pin_screen_to_3d_space: make_prop("Screen to 3D Space", False)
     
     # --- NORMALS SECTION ---
     pin_normal_edit: make_prop("Normal Edit", False)
     pin_weighted_normal: make_prop("Weighted Normal", False)
     pin_smooth_by_angle: make_prop("Smooth by Angle", False)
+    pin_smooth_geometry: make_prop("Smooth Geometry", False)
     
     # --- PHYSICS SECTION ---
     pin_cloth: make_prop("Cloth", False)
@@ -428,37 +543,60 @@ class PinnedModifiersPreferences(bpy.types.AddonPreferences):
         row.operator("pinned_modifiers.reset_settings", text="Reset Defaults", icon='FILE_REFRESH')
         
         layout.separator()
-        
+
+        # --- FILTER TOGGLE: ONLY 4.5 MODIFIERS ---
+        # In Blender 4.5, modifiers whose kind is "NODES" (Geometry Nodes based
+        # modifiers) are not available: they were introduced in Blender 5.0.
+        # The "only 4.5" toggle hides them from the list below so the user can
+        # pick a clean set of modifiers that actually work on their version.
+        filter_row = layout.row(align=True)
+        filter_row.prop(self, "only_45", text="only 4.5", icon='FILTER',
+                        toggle=True)
+
+        layout.separator()
+
         # --- MODIFIERS CATEGORIES SEPARATION ---
-        keys = list(AVAILABLE_MODIFIERS.keys())
-        
-        # Slicing the keys based on the order of AVAILABLE_MODIFIERS
-        categories = {
-            "Edit": keys[0:8],
-            "Generate": keys[8:29],
-            "Deform": keys[29:45],
-            "Normals": keys[45:48],
-            "Physics": keys[48:]
-        }
-        
-        for cat_name, cat_keys in categories.items():
+        # When the "only 4.5" toggle is enabled, drop every modifier whose
+        # kind is "NODES": those rely on the Blender 5.0+ Geometry Nodes
+        # modifier system and will not appear in 4.5. We list categories by
+        # name rather than by index so the filter does not shift the slice
+        # boundaries when modifiers are hidden.
+        only_45 = getattr(self, "only_45", False)
+
+        def cat_keys(*names):
+            """Return the modifier keys for the given categories, preserving
+            the order in AVAILABLE_MODIFIERS and honouring the only_45 filter."""
+            out = []
+            for n in names:
+                out.extend(MODIFIER_CATEGORIES[n])
+            if only_45:
+                out = [k for k in out if AVAILABLE_MODIFIERS[k].get("kind") != "NODES"]
+            return out
+
+        for cat_name in ("Edit", "Generate", "Deform", "Normals", "Physics"):
+            current_keys = cat_keys(cat_name)
+            if not current_keys:
+                # The whole category is empty under the current filter; skip
+                # rendering the section entirely so the layout stays compact.
+                continue
+
             # Add a section label for the category
             layout.label(text=f"{cat_name}", icon='DOT')
-            
+
             grid_row = layout.row()
             cols = [grid_row.column() for _ in range(4)]
-            
+
             # Calculate how many items fit in each column for this specific category
-            items_per_col = (len(cat_keys) + 3) // 4
-            
-            for i, key in enumerate(cat_keys):
+            items_per_col = (len(current_keys) + 3) // 4
+
+            for i, key in enumerate(current_keys):
                 # Ensure we don't go out of bounds if distribution is slightly uneven
-                col_index = min(i // items_per_col, 3) 
+                col_index = min(i // items_per_col, 3)
                 target_col = cols[col_index]
-                
+
                 icon_string = AVAILABLE_MODIFIERS[key]["icon"]
                 target_col.prop(self, key, icon=icon_string)
-                
+
             layout.separator()
             
         layout.separator()
@@ -466,7 +604,12 @@ class PinnedModifiersPreferences(bpy.types.AddonPreferences):
         layout.separator()
         
         # --- REORDER PINNED MODIFIERS ---
-        active = [k for k in keys if getattr(self, k)]
+        # The reorder list always reflects the *full* set of pinned modifiers,
+        # regardless of the only_45 filter, so the user can still manage
+        # (remove / reorder) modifiers they had pinned in 5.x even while the
+        # checkbox grid is filtered to 4.5 only.
+        all_keys = list(AVAILABLE_MODIFIERS.keys())
+        active = [k for k in all_keys if getattr(self, k)]
         order = [k for k in self.pinned_order.split(',') if k]
         
         final_order = []
