@@ -2,7 +2,7 @@ bl_info = {
     "name": "Pinned Modifiers",
     "author": "Francesco Yoshi Gobbo",
     "version": (1, 1, 0),
-    "blender": (5, 2, 1),
+    "blender": (4, 3, 0),
     "location": "Properties > Modifiers > Add Modifier",
     "description": "Pins favorite modifiers setups to the Add Modifier menu.",
     "category": "Interface",
@@ -437,7 +437,7 @@ class PinnedModifiersPreferences(bpy.types.AddonPreferences):
     bl_idname = __name__
 
     pinned_order: bpy.props.StringProperty(
-        default="pin_array,pin_bevel,pin_boolean,pin_mirror,pin_subsurf,pin_weld",
+        default="pin_bevel,pin_boolean,pin_mirror,pin_subsurf,pin_weld",
         update=save_settings
     )
     
@@ -466,7 +466,7 @@ class PinnedModifiersPreferences(bpy.types.AddonPreferences):
     pin_vertex_weight_proximity: make_prop("Vertex Weight Proximity", False)
     
     # --- GENERATE SECTION ---
-    pin_array: make_prop("Array", True)
+    pin_array: make_prop("Array", False)
     pin_array_legacy: make_prop("Array (Legacy)", False)
     pin_bevel: make_prop("Bevel", True)
     pin_boolean: make_prop("Boolean", True)
