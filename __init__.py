@@ -199,7 +199,7 @@ def deferred_save():
     settings = {key: getattr(prefs, key) for key in AVAILABLE_MODIFIERS.keys()}
     settings['pinned_order'] = getattr(prefs, "pinned_order", "")
     settings['show_settings_button'] = getattr(prefs, "show_settings_button", True)
-    settings['only_45'] = getattr(prefs, "only_45", False)
+    settings['only_43'] = getattr(prefs, "only_43", False)
 
     try:
         with open(path, 'w') as f:
@@ -248,7 +248,7 @@ class PINNEDMODIFIERS_OT_export_settings(bpy.types.Operator, ExportHelper):
         settings = {key: getattr(prefs, key) for key in AVAILABLE_MODIFIERS.keys()}
         settings['pinned_order'] = getattr(prefs, 'pinned_order', '')
         settings['show_settings_button'] = getattr(prefs, 'show_settings_button', True)
-        settings['only_45'] = getattr(prefs, 'only_45', False)
+        settings['only_43'] = getattr(prefs, 'only_43', False)
         try:
             with open(self.filepath, 'w') as f:
                 json.dump(settings, f, indent=4)
@@ -297,7 +297,7 @@ class PINNEDMODIFIERS_OT_reset_settings(bpy.types.Operator):
             
             prefs.pinned_order = prefs.bl_rna.properties["pinned_order"].default
             prefs.show_settings_button = prefs.bl_rna.properties["show_settings_button"].default
-            prefs.only_45 = prefs.bl_rna.properties["only_45"].default
+            prefs.only_43 = prefs.bl_rna.properties["only_43"].default
                 
             self.report({'INFO'}, "Configuration reset to defaults")
         except Exception as e:
@@ -448,7 +448,7 @@ class PinnedModifiersPreferences(bpy.types.AddonPreferences):
         update=save_settings
     )
 
-    only_45: bpy.props.BoolProperty(
+    only_43: bpy.props.BoolProperty(
         name="only 4.5",
         description="Hide modifiers that are not present in Blender 4.5 (Geometry Nodes based modifiers, added in Blender 5.0).",
         default=False,
@@ -550,7 +550,7 @@ class PinnedModifiersPreferences(bpy.types.AddonPreferences):
         # The "only 4.5" toggle hides them from the list below so the user can
         # pick a clean set of modifiers that actually work on their version.
         filter_row = layout.row(align=True)
-        filter_row.prop(self, "only_45", text="only 4.5", icon='FILTER',
+        filter_row.prop(self, "only_43", text="only 4.5", icon='FILTER',
                         toggle=True)
 
         layout.separator()
@@ -561,15 +561,15 @@ class PinnedModifiersPreferences(bpy.types.AddonPreferences):
         # modifier system and will not appear in 4.5. We list categories by
         # name rather than by index so the filter does not shift the slice
         # boundaries when modifiers are hidden.
-        only_45 = getattr(self, "only_45", False)
+        only_43 = getattr(self, "only_43", False)
 
         def cat_keys(*names):
             """Return the modifier keys for the given categories, preserving
-            the order in AVAILABLE_MODIFIERS and honouring the only_45 filter."""
+            the order in AVAILABLE_MODIFIERS and honouring the only_43 filter."""
             out = []
             for n in names:
                 out.extend(MODIFIER_CATEGORIES[n])
-            if only_45:
+            if only_43:
                 out = [k for k in out if AVAILABLE_MODIFIERS[k].get("kind") != "NODES"]
             return out
 
@@ -605,7 +605,7 @@ class PinnedModifiersPreferences(bpy.types.AddonPreferences):
         
         # --- REORDER PINNED MODIFIERS ---
         # The reorder list always reflects the *full* set of pinned modifiers,
-        # regardless of the only_45 filter, so the user can still manage
+        # regardless of the only_43 filter, so the user can still manage
         # (remove / reorder) modifiers they had pinned in 5.x even while the
         # checkbox grid is filtered to 4.5 only.
         all_keys = list(AVAILABLE_MODIFIERS.keys())
