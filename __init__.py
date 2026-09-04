@@ -449,7 +449,7 @@ class PinnedModifiersPreferences(bpy.types.AddonPreferences):
     )
 
     only_43: bpy.props.BoolProperty(
-        name="only 4.3",
+        name="4.3 filter",
         description="Hide modifiers that are not present in Blender 4.3 (Geometry Nodes based modifiers, added in Blender 5.0).",
         default=False,
         update=save_settings
@@ -544,19 +544,19 @@ class PinnedModifiersPreferences(bpy.types.AddonPreferences):
         
         layout.separator()
 
-        # --- FILTER TOGGLE: ONLY 4.3 MODIFIERS ---
+        # --- FILTER TOGGLE: 4.3 FILTER MODIFIERS ---
         # In Blender 4.3, modifiers whose kind is "NODES" (Geometry Nodes based
         # modifiers) are not available: they were introduced in Blender 5.0.
-        # The "only 4.3" toggle hides them from the list below so the user can
+        # The "4.3 filter" toggle hides them from the list below so the user can
         # pick a clean set of modifiers that actually work on their version.
         filter_row = layout.row(align=True)
-        filter_row.prop(self, "only_43", text="only 4.3", icon='FILTER',
+        filter_row.prop(self, "only_43", text="4.3 filter", icon='FILTER',
                         toggle=True)
 
         layout.separator()
 
         # --- MODIFIERS CATEGORIES SEPARATION ---
-        # When the "only 4.3" toggle is enabled, drop every modifier whose
+        # When the "4.3 filter" toggle is enabled, drop every modifier whose
         # kind is "NODES": those rely on the Blender 5.0+ Geometry Nodes
         # modifier system and will not appear in 4.3. We list categories by
         # name rather than by index so the filter does not shift the slice
