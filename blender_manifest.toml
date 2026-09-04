@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "pinned_modifiers"
-version = "1.0.0"
+version = "1.1.0"
 name = "Pinned Modifiers"
 tagline = "Pins favorite modifiers to the Add Modifier menu"
 maintainer = "Francesco Yoshi Gobbo <dev@furayoshi.com>"
