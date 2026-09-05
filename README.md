@@ -16,7 +16,7 @@
 
 ## ⚙️ Compatibility
 * **Supported:** Blender 4.3 -> 5.1.1+
-* **Supported with caveats:** Blender 4.2 *(pinned Geometry Nodes based modifiers won't work, path changed)*
+* **Supported with caveats:** Blender 4.3 *(pinned Geometry Nodes based modifiers won't work, but can filter them out)*
 * **Not Supported:** Blender 3.6 LTS and older. *(This add-on relies on the dynamic "Add Modifier" menu system introduced in Blender 4.0).*
 
 ## 📥 Installation
@@ -24,10 +24,10 @@
 ### Drag and Drop
 1. Download the latest `pinned-modifiers.zip` file from the Releases page, and drop it into Blender.
 
-### Legacy Method
-1. go to **Edit > Preferences > Add-ons**
-2. Click **Install...** in the top right corner and select the downloaded file.
-3. Enable the checkbox next to **Interface: Pinned Modifiers**.
+### Blender 4.3
+1. go to **Edit > Preferences > Get Extensions**
+2. click **Install from Disk** in the top right corner *(press the arrow)*.
+3. the add-on should already be enabled, you can find the settings in the Add-ons tab.
 
 ## ✏️ How to Use
 **Video tutorial**:
